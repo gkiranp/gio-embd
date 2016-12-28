@@ -1,0 +1,32 @@
+IMPORT_LIB	= shapelib_i.lib
+STATIC_LIB	= shapelib.lib
+DLLNAME 	= shapelib.dll
+LINK_LIB 	= $(IMPORT_LIB)
+
+CFLAGS =	/nologo /Ox /MD /DSHAPELIB_DLLEXPORT
+
+OBJ 		= shpopen.obj dbfopen.obj shptree.obj safileio.obj
+
+all:	$(STATIC_LIB)
+
+shpopen.obj:	shpopen.c shapefil.h
+	$(CC) $(CFLAGS) -c shpopen.c
+
+shptree.obj:	shptree.c shapefil.h
+	$(CC) $(CFLAGS) -c shptree.c
+
+dbfopen.obj:	dbfopen.c shapefil.h
+	$(CC) $(CFLAGS) -c dbfopen.c
+
+safileio.obj:	safileio.c shapefil.h
+	$(CC) $(CFLAGS) -c safileio.c
+
+clean:
+	-del *.obj 
+	-del *.exe
+	-del *.lib
+	-del *.dll
+	-del *.manifest
+
+$(STATIC_LIB):	$(OBJ)
+	lib /nologo /out:$(STATIC_LIB) $(OBJ)
